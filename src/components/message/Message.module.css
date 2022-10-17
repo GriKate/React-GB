@@ -1,0 +1,18 @@
+.message {
+    background-color: seashell;
+    padding: 20px 0;
+}
+
+.parent-message {
+
+}
+
+.message_header {
+    color: darkred;
+}
+
+.message_input {
+    background-color: lightsalmon;
+    border: 2px solid;
+    border-color: indianred;
+}
