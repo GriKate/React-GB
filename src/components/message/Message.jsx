@@ -1,6 +1,6 @@
 import style from './Message.module.css'
 
-export const Message = ({message, handleChangeMessage}) => {
+export const Message = ({message, handleChangeMessage, messagesList}) => {
     const handleClick = () => {
         handleChangeMessage('This message was sent from Message Component')
     }
@@ -10,6 +10,8 @@ export const Message = ({message, handleChangeMessage}) => {
     }
 
     return <div className={style.message}>
+        {/* {messagesList} */}
+        {/* {messagesList.map((el) => <p>{el}</p>)} */}
         <div>
             <p className="parent-message">{message}</p>
         </div>
