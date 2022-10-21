@@ -24,13 +24,22 @@ function App({messages, addMessage}) {
 
   useEffect(() => {
     setMessageList(messages)
+    console.log('e')
+    showMessage()
   }, [])
+
+  const showMessage = () => {
+    if(newMessage) alert(newMessage.name + ", your message is published")
+  }
 
   const handleSetMessage = (e) => {
     e.preventDefault()
 
     let messageText = e.target[0].value
-    const inputMessage = {author: 'Sue', text: messageText};
+    let inputMessage = {}
+    if(messageText.length) {
+      inputMessage = {author: 'Sue', text: messageText}
+    } else return
 
     // изменяем стейт для перерендера через useEffect
     setNewMessage(inputMessage)
