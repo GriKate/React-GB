@@ -72,28 +72,37 @@ function App({messages, addMessage}) {
           <p key={el.text.idx}>{el.text}</p>
         </div> : null)
       }
-      <form onSubmit={handleAddMessage}>
-        <label>
-          Имя:
-          <input 
-            name="author"
-            type="text" 
-            value={messageAuthor  || ''} 
-            onChange={e => setMessageAuthor(e.target.value)}
-          ></input>
-          {/* onChange={e => setNewMessage({author: e.target.value})} */}
-        </label>
-        <br />
-        <label>
-          Текст:
-          <input 
-            name="text"
-            type="text" 
-            value={messageText  || ''} 
-            onChange={e => setMessageText(e.target.value)}
-          ></input>
-        </label>
-        <button>Send message</button>
+      <form 
+        onSubmit={handleAddMessage} 
+        style={{width: '300px', marginTop: '20px', padding: '5px', border: '1px solid #fff'}}
+        >
+        <p style={{marginTop: '10px'}}>Send new message:</p>
+        <div style={{display: 'flex', flexDirection: 'column', margin: '20px 0'}}>
+          <label>
+            Имя:
+            <input 
+              name="author"
+              type="text" 
+              value={messageAuthor  || ''} 
+              onChange={e => setMessageAuthor(e.target.value)}
+              style={{marginLeft: '10px'}}
+            ></input>
+          </label>
+          <br />
+          <label>
+            Текст:
+            <input 
+              name="text"
+              type="text" 
+              value={messageText  || ''} 
+              onChange={e => setMessageText(e.target.value)}
+              style={{marginLeft: '10px'}}
+            ></input>
+          </label>
+          <button 
+            style={{width: '150px', padding: '10px 0', marginTop: '30px', backgroundColor: 'salmon'}}
+          >Send message</button>
+        </div>
       </form>
       {/* <Form /> */}
       {/* <CountClass count={1}/> */}
