@@ -14,7 +14,10 @@ function App({messages, addMessage}) {
   const [childMessage, setChildMessage] = useState('This message was sent from Parent')
   const [parentMessage, setParentMessage] = useState('...message?')
   const [messageList, setMessageList] = useState([])
-  const [newMessage, setNewMessage] = useState("")
+  // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
+  const [messageAuthor, setMessageAuthor] = useState('')
+  const [messageText, setMessageText] = useState('')
+  const [isMessageSent, setMessageSent] = useState(false)
 
   console.log(messages)
 
@@ -25,32 +28,40 @@ function App({messages, addMessage}) {
   useEffect(() => {
     setMessageList(messages)
     console.log('e')
-    showMessage()
+    // showMessage()
   }, [])
 
-  const showMessage = () => {
-    if(newMessage) alert(newMessage.name + ", your message is published")
-  }
+  // const showMessage = () => {
+  //   if(newMessage) alert(newMessage.name + ", your message is published")
+  // }
 
-  const handleSetMessage = (e) => {
+  // const handleSetMessage = (e) => {
+  //   const name = e.target.name
+  //   const value = e.target.value
+  //   setNewMessage({[name]: value})
+  // }
+
+  const handleAddMessage = (e) => {
     e.preventDefault()
+    console.log(messageAuthor)
+    console.log(messageText)
 
-    let messageText = e.target[0].value
     let inputMessage = {}
-    if(messageText.length) {
-      inputMessage = {author: 'Sue', text: messageText}
+    if(messageText.length && messageAuthor.length) {
+      inputMessage = {author: messageAuthor, text: messageText}
     } else return
 
     // изменяем стейт для перерендера через useEffect
-    setNewMessage(inputMessage)
+    setMessageSent(true)
 
-    // передаём в родительскую ф-ию inputMessage
-    // если передать newMessage из стейта, новое сообщение отобразится только при след. рендере
+    // передаём inputMessage в родительскую ф-ию 
+    // если передать в неё newMessage из стейта, новое сообщение отобразится только при след. рендере
     addMessage(inputMessage)
 
     console.log(messages)
     console.log(messageList) 
     e.target[0].value = ''
+    e.target[1].value = ''
   }
 
   return (
@@ -62,8 +73,27 @@ function App({messages, addMessage}) {
           <p key={el.text.idx}>{el.text}</p>
         </div> : null)
       }
-      <form onSubmit={handleSetMessage}>
-        <input type="text" onChange={value => setMessageList}></input>
+      <form onSubmit={handleAddMessage}>
+        <label>
+          Имя:
+          <input 
+            name="author"
+            type="text" 
+            value={messageAuthor  || ''} 
+            onChange={e => setMessageAuthor(e.target.value)}
+          ></input>
+          {/* onChange={e => setNewMessage({author: e.target.value})} */}
+        </label>
+        <br />
+        <label>
+          Текст:
+          <input 
+            name="text"
+            type="text" 
+            value={messageText  || ''} 
+            onChange={e => setMessageText(e.target.value)}
+          ></input>
+        </label>
         <button>Send message</button>
       </form>
       {/* <Form /> */}
