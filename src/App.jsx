@@ -19,32 +19,30 @@ function App({messages, addMessage}) {
   const [messageText, setMessageText] = useState('')
   const [isMessageSent, setMessageSent] = useState(false)
 
-  console.log(messages)
-
   const handleChangeName = (e) => {
     setName(e.target.value)
   }
 
   useEffect(() => {
     setMessageList(messages)
-    console.log('e')
-    // showMessage()
   }, [])
 
-  // const showMessage = () => {
-  //   if(newMessage) alert(newMessage.name + ", your message is published")
-  // }
+  useEffect(() => {
+    if(isMessageSent) {
+      console.log('eff')
+      showMessage()
+      setMessageSent(false)
+      setMessageText('')
+      setMessageAuthor('')
+    }
+  })
 
-  // const handleSetMessage = (e) => {
-  //   const name = e.target.name
-  //   const value = e.target.value
-  //   setNewMessage({[name]: value})
-  // }
+  const showMessage = () => {
+    if(messageAuthor) alert(messageAuthor + ", your message is published")
+  }
 
   const handleAddMessage = (e) => {
     e.preventDefault()
-    console.log(messageAuthor)
-    console.log(messageText)
 
     let inputMessage = {}
     if(messageText.length && messageAuthor.length) {
@@ -58,8 +56,9 @@ function App({messages, addMessage}) {
     // если передать в неё newMessage из стейта, новое сообщение отобразится только при след. рендере
     addMessage(inputMessage)
 
-    console.log(messages)
-    console.log(messageList) 
+    // console.log(messages)
+    // console.log(messageList) 
+
     e.target[0].value = ''
     e.target[1].value = ''
   }
