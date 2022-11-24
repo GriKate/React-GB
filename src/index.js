@@ -16,11 +16,20 @@ import App from './App';
 //   return <div>my first elem</div>
 // }
 
+const messages = [
+    {author: 'Ann', text:'This message was sent from Ann'},
+    {author: 'Nick', text:'This is an answer from Nick'}
+  ]
+// const messages = []
+// console.log(typeof messages)
 
+function addMessage(message) {
+    messages.push(message)
+}
 
 // до 18 версии был метод рендер, теперь createRoot
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<App messages={messages} addMessage={addMessage} />);
 
 // root.render(element());
 
