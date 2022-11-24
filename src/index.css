@@ -16,3 +16,28 @@ code {
   background-color: lightgrey;
   padding: 0 30px 50px;
 }
+
+.wrapper {
+  display: flex; 
+  padding-top: 20px;
+}
+
+.chat-list {
+  width: 300px;
+  height: 300px;
+  margin-right: 40px;
+  background-color: lavender;
+}
+
+.message-form {
+  width: 300px;
+  margin-top: 20px;
+  padding: 5px;
+  border: 1px solid #fff;
+}
+
+.message-form_container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
