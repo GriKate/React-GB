@@ -14,9 +14,10 @@ function App({messages, addMessage}) {
   const [childMessage, setChildMessage] = useState('This message was sent from Parent')
   const [parentMessage, setParentMessage] = useState('...message?')
   const [messageList, setMessageList] = useState([])
-  const [newMessage, setNewMessage] = useState("")
-
-  console.log(messages)
+  // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
+  const [messageAuthor, setMessageAuthor] = useState('')
+  const [messageText, setMessageText] = useState('')
+  const [isMessageSent, setMessageSent] = useState(false)
 
   const handleChangeName = (e) => {
     setName(e.target.value)
@@ -24,33 +25,42 @@ function App({messages, addMessage}) {
 
   useEffect(() => {
     setMessageList(messages)
-    console.log('e')
-    showMessage()
   }, [])
 
+  useEffect(() => {
+    if(isMessageSent) {
+      console.log('eff')
+      showMessage()
+      setMessageSent(false)
+      setMessageText('')
+      setMessageAuthor('')
+    }
+  })
+
   const showMessage = () => {
-    if(newMessage) alert(newMessage.name + ", your message is published")
+    if(messageAuthor) alert(messageAuthor + ", your message is published")
   }
 
-  const handleSetMessage = (e) => {
+  const handleAddMessage = (e) => {
     e.preventDefault()
 
-    let messageText = e.target[0].value
     let inputMessage = {}
-    if(messageText.length) {
-      inputMessage = {author: 'Sue', text: messageText}
+    if(messageText.length && messageAuthor.length) {
+      inputMessage = {author: messageAuthor, text: messageText}
     } else return
 
     // изменяем стейт для перерендера через useEffect
-    setNewMessage(inputMessage)
+    setMessageSent(true)
 
-    // передаём в родительскую ф-ию inputMessage
-    // если передать newMessage из стейта, новое сообщение отобразится только при след. рендере
+    // передаём inputMessage в родительскую ф-ию 
+    // если передать в неё newMessage из стейта, новое сообщение отобразится только при след. рендере
     addMessage(inputMessage)
 
-    console.log(messages)
-    console.log(messageList) 
+    // console.log(messages)
+    // console.log(messageList) 
+
     e.target[0].value = ''
+    e.target[1].value = ''
   }
 
   return (
@@ -62,9 +72,37 @@ function App({messages, addMessage}) {
           <p key={el.text.idx}>{el.text}</p>
         </div> : null)
       }
-      <form onSubmit={handleSetMessage}>
-        <input type="text" onChange={value => setMessageList}></input>
-        <button>Send message</button>
+      <form 
+        onSubmit={handleAddMessage} 
+        style={{width: '300px', marginTop: '20px', padding: '5px', border: '1px solid #fff'}}
+        >
+        <p style={{marginTop: '10px'}}>Send new message:</p>
+        <div style={{display: 'flex', flexDirection: 'column', margin: '20px 0'}}>
+          <label>
+            Имя:
+            <input 
+              name="author"
+              type="text" 
+              value={messageAuthor  || ''} 
+              onChange={e => setMessageAuthor(e.target.value)}
+              style={{marginLeft: '10px'}}
+            ></input>
+          </label>
+          <br />
+          <label>
+            Текст:
+            <input 
+              name="text"
+              type="text" 
+              value={messageText  || ''} 
+              onChange={e => setMessageText(e.target.value)}
+              style={{marginLeft: '10px'}}
+            ></input>
+          </label>
+          <button 
+            style={{width: '150px', padding: '10px 0', marginTop: '30px', backgroundColor: 'salmon'}}
+          >Send message</button>
+        </div>
       </form>
       {/* <Form /> */}
       {/* <CountClass count={1}/> */}
