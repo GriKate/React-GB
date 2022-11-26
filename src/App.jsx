@@ -5,6 +5,7 @@ import { NotFound } from './components/NotFound';
 
 import {useEffect, useState} from 'react';
 import './index.css';
+import { useDispatch, useSelector } from 'react-redux'
 
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
@@ -52,6 +53,29 @@ const lightTheme = createTheme({
 function App({messages, addMessage}) {
   const [isDark, setIsDark] = useState(false)
 
+  const dispatch = useDispatch()
+  const inputs = useSelector((store) => store.inputProfileReducer)
+
+  const setProfile = (e) => {
+    // console.log(e.target.value)
+    dispatch({
+      type: 'PROFILE_INPUT', 
+      payload: {[e.target.name]: e.target.value}
+    })
+  }
+
+  const submitProfile = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: 'SET_NEW_PROFILE',
+      payload: inputs
+    })
+    dispatch({
+      type: 'PROFILE_INPUT_CLEAR', 
+      payload: {name: '', isMember: ''}
+    })
+  }
+
   return (
     <BrowserRouter>
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
@@ -67,7 +91,7 @@ function App({messages, addMessage}) {
           <Route path='chats' element={<Chats />}>
             <Route path=':chatID' element={<Chats />}></Route>
           </Route>
-          <Route path='profile' element={<Profile />}></Route>
+          <Route path='profile' element={<Profile setProfile={setProfile} submitProfile={submitProfile} />}></Route>
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </div>
