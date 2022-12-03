@@ -7,8 +7,15 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
 import { Navigate } from "react-router-dom";
 
 const chats = [
@@ -37,6 +44,23 @@ export const Chats = () => {
     const [messageAuthor, setMessageAuthor] = useState('')
     const [messageText, setMessageText] = useState('')
     const [isMessageSent, setMessageSent] = useState(false)
+    const [chatName, setChatName] = useState('')
+
+    // modal window
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
 
     // id чата берем из url
     const {chatID} = useParams()
@@ -79,21 +103,62 @@ export const Chats = () => {
         // console.log(inputMessage)
     }
 
+    const deleteChat = (id) => {
+        console.log(id)
+        chats.filter((chat) => chat.id !== id)
+    }
+
+    const handleAddChat = () => {
+        console.log(chatName)
+    }
 
     return <>
-        <h1>Chats</h1>
+        <div style={{display: "flex", alignItems: "center"}}>
+            <h1 style={{marginRight: "30px"}}>Chats</h1>
+            <Button variant="outlined" onClick={handleOpen}>Add New Chat</Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                <Box sx={style}>
+                    <div className="message-form_container">
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Enter chat Name
+                        </Typography>
+                        <TextField
+                            id="outlined-multiline-flexible"
+                            margin="normal" 
+                            name="chatName"
+                            value={chatName  || ''}
+                            onChange={e => setChatName(e.target.value)}
+                            />
+                        <Button 
+                            onClick={handleAddChat} 
+                            variant="contained" 
+                            color="success"
+                            >Add Chat
+                        </Button>
+                    </div>
+                </Box>
+            </Modal>
+        </div>
         <div className="wrapper">
         <div className="chat-list">
-            <List>
+            <MenuList>
                 {chats.map((chat) => 
                 chat ?
-                <ListItem disablePadding key={chat.id}>
-                    <ListItemButton>
-                        <Link to={`${chat.id}`} key={chat.id} >{chat.name}</Link>
-                    </ListItemButton>
-                </ListItem> : null
+                <MenuItem key={chat.id}>
+                    <ListItemText>
+                        <Link to={`${chat.id}`} >{chat.name}</Link>
+                    </ListItemText>
+                    <ListItemIcon>
+                        <Button variant="contained" color="error" onClick={() => {deleteChat(chat.id)}}>X</Button>
+                    </ListItemIcon>
+                </MenuItem> : null
                 )}
-            </List>
+            </MenuList>
         </div>
         <div className="chat">
         {
