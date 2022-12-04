@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 
 import {useEffect, useState} from 'react';
 import '../.././index.css';
@@ -18,33 +19,35 @@ import Modal from '@mui/material/Modal';
 
 import { Navigate } from "react-router-dom";
 
-const chats = [
-    {
-        id: '1',
-        name: 'Weather', 
-        messages: [
-            {author: 'Ann', text:'This message was sent from Ann'},
-            {author: 'Nick', text:'This is an answer from Nick'}
-        ]}, 
-    {
-        id: '2',
-        name: 'City', 
-        messages: [
-            {author: 'Sue', text:'Hello!'},
-            {author: 'Luck', text:'Some answer'}
-        ]}, 
-    {
-        id: '3',
-        name: 'Transport', 
-        messages: []}
-]
+// const chats = [
+//     {
+//         id: '1',
+//         name: 'Weather', 
+//         messages: [
+//             {author: 'Ann', text:'This message was sent from Ann'},
+//             {author: 'Nick', text:'This is an answer from Nick'}
+//         ]}, 
+//     {
+//         id: '2',
+//         name: 'City', 
+//         messages: [
+//             {author: 'Sue', text:'Hello!'},
+//             {author: 'Luck', text:'Some answer'}
+//         ]}, 
+//     {
+//         id: '3',
+//         name: 'Transport', 
+//         messages: []}
+// ]
 
 export const Chats = () => {
     // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
     const [messageAuthor, setMessageAuthor] = useState('')
     const [messageText, setMessageText] = useState('')
     const [isMessageSent, setMessageSent] = useState(false)
-    const [chatName, setChatName] = useState('')
+    const dispatch = useDispatch()
+    const chatInput = useSelector((store) => store.inputChatReducer)
+    const chats = useSelector((store) => store.chatsReducer)
 
     // modal window
     const [open, setOpen] = useState(false);
@@ -104,12 +107,38 @@ export const Chats = () => {
     }
 
     const deleteChat = (id) => {
-        console.log(id)
-        chats.filter((chat) => chat.id !== id)
+        // console.log(id)
+        dispatch({
+            type: 'DELETE_CHAT', 
+            payload: chats.filter((chat) => chat.id !== id)
+          })
     }
 
-    const handleAddChat = () => {
-        console.log(chatName)
+    const setChatInput = (e) => {
+        dispatch({
+          type: 'SET_CHAT_INPUT', 
+          payload: {[e.target.name]: e.target.value}
+        })
+      }
+
+    const submitChat = (e) => {
+        e.preventDefault()
+        // console.log(chatInput)
+        chatInput.id = String(Math.floor(Math.random() * 1000))
+        chatInput.messages = [
+                        {author: 'Sue', text:'Hello!'},
+                        {author: 'Luck', text:'Some answer'}
+                    ]
+        dispatch({
+            type: 'ADD_NEW_CHAT',
+            payload: chatInput
+        })
+        dispatch({
+            type: 'CHAT_INPUT_CLEAR', 
+            payload: {name: ''}
+          })
+        // console.log(chatInput)
+        handleClose()
     }
 
     return <>
@@ -123,24 +152,26 @@ export const Chats = () => {
                 aria-describedby="modal-modal-description"
                 >
                 <Box sx={style}>
-                    <div className="message-form_container">
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Enter chat Name
-                        </Typography>
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            margin="normal" 
-                            name="chatName"
-                            value={chatName  || ''}
-                            onChange={e => setChatName(e.target.value)}
-                            />
-                        <Button 
-                            onClick={handleAddChat} 
-                            variant="contained" 
-                            color="success"
-                            >Add Chat
-                        </Button>
-                    </div>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Enter chat Name
+                    </Typography>
+                    <form>
+                        <div className="message-form_container">
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                margin="normal" 
+                                name="name"
+                                value={chatInput.name}
+                                onChange={setChatInput}
+                                />
+                            <Button 
+                                onClick={submitChat} 
+                                variant="contained" 
+                                color="success"
+                                >Add Chat
+                            </Button>
+                        </div>
+                    </form>
                 </Box>
             </Modal>
         </div>
@@ -150,12 +181,14 @@ export const Chats = () => {
                 {chats.map((chat) => 
                 chat ?
                 <MenuItem key={chat.id}>
-                    <ListItemText>
-                        <Link to={`${chat.id}`} >{chat.name}</Link>
-                    </ListItemText>
-                    <ListItemIcon>
-                        <Button variant="contained" color="error" onClick={() => {deleteChat(chat.id)}}>X</Button>
-                    </ListItemIcon>
+                    <ListItemButton>
+                        <ListItemText>
+                            <Link to={`${chat.id}`} >{chat.name}</Link>
+                        </ListItemText>
+                        <ListItemIcon>
+                            <Button variant="contained" color="error" onClick={() => {deleteChat(chat.id)}}>X</Button>
+                        </ListItemIcon>
+                    </ListItemButton>
                 </MenuItem> : null
                 )}
             </MenuList>
@@ -163,7 +196,7 @@ export const Chats = () => {
         <div className="chat">
         {
             // ! если в URL передан несуществующий ID - "выберите чат"
-            chatID ? (
+            chatID && chats.find((chat) => chatID===chat.id) ? (
                 chats.map((chat, idx) => 
                     chatID && chatID===chat.id ?
                     <div key={chat.id}>
