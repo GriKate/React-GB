@@ -4,5 +4,7 @@ export const initState = {
     profilesReducer: [],
     inputProfileReducer: {},
     chatsReducer: [],
-    inputChatReducer: {}
+    inputChatReducer: {}, 
+    messagesReducer: [],
+    inputMessageReducer: {}
 }

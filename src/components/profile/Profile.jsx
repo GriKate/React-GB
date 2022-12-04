@@ -2,9 +2,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useSelector } from 'react-redux'
 
+import { getProfileInput } from '../../redux/profilesReducers/selectors'
+import { getProfiles} from '../../redux/profilesReducers/selectors'
+
 export const Profile = ({setProfile, submitProfile}) => {
-    const inputs = useSelector((store) => store.inputProfileReducer)
-    const profiles = useSelector((store) => store.profilesReducer)
+    const inputs = useSelector(getProfileInput)
+    const profiles = useSelector(getProfiles)
     // console.log(profiles)
     return <>
         <h1>Profile page</h1>
