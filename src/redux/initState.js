@@ -2,5 +2,9 @@ export const initState = {
     postsReducer: [],
     inputPostReducer: {},
     profilesReducer: [],
-    inputProfileReducer: {}
+    inputProfileReducer: {},
+    chatsReducer: [],
+    inputChatReducer: {}, 
+    messagesReducer: [],
+    inputMessageReducer: {}
 }
