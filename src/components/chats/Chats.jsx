@@ -55,12 +55,12 @@ export const Chats = () => {
     // id чата берем из url
     const {chatID} = useParams()
     
-    useEffect(() => {
-        if(isMessageSent) {
-            setMessageSent(false)
-            document.getElementById('outlined-basic').focus();
-        }
-    })
+    // useEffect(() => {
+    //     if(isMessageSent) {
+    //         setMessageSent(false)
+    //         document.getElementById('outlined-basic').focus();
+    //     }
+    // })
     
     const showBotMessage = (author) => {
         if(author) alert(author + ", your message is published")
@@ -79,23 +79,33 @@ export const Chats = () => {
         if(messageInput.author.length && messageInput.text.length) {
             messageInput.id = String(Math.floor(Math.random() * 1000))
             messageInput.chatId = chatID
-            // console.log(messageInput)
         } else {
             alert("Type the author and the text")
             return
         }
-        dispatch({
-            type: 'ADD_NEW_MESSAGE',
-            payload: messageInput
-        })
+        // dispatch({
+        //     type: 'ADD_NEW_MESSAGE',
+        //     payload: messageInput
+        // })
         // изменяем стейт для перерендера через useEffect
-        setMessageSent(true)
-        showBotMessage(messageInput.author)
+        // setMessageSent(true)
+        // showBotMessage(messageInput.author)
+        dispatch(botMessageMiddleware())
         dispatch({
             type: 'MESSAGE_INPUT_CLEAR', 
             payload: {author: '', text: '', id: '', chatId: ''}
         })
+        document.getElementById('outlined-basic').focus();
     }
+
+    const botMessageMiddleware = () => async (dispatch, getState) => {
+        await setTimeout(() => {alert(messageInput.author + ", your message is published")}, 1000)
+        dispatch({
+            type: 'ADD_NEW_MESSAGE',
+            payload: messageInput
+        })
+    }
+
 
     const deleteChat = (id) => {
         // console.log(id)
