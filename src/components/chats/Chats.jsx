@@ -20,6 +20,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import SubmitButton from '../UI/SubmitButton';
+
 import { Navigate } from "react-router-dom";
 
 import { getChatInput } from '../../redux/chatsReducers/selectors'
@@ -160,12 +162,13 @@ export const Chats = () => {
                                 value={chatInput.name}
                                 onChange={setChatInput}
                                 />
-                            <Button 
+                            {/* <Button 
                                 onClick={submitChat} 
                                 variant="contained" 
                                 color="success"
                                 >Add Chat
-                            </Button>
+                            </Button> */}
+                            <SubmitButton onClick={submitChat}>Add Chat</SubmitButton>
                         </div>
                     </form>
                 </Box>
@@ -216,34 +219,15 @@ export const Chats = () => {
                             value={messageInput.text}
                             onChange={setMessageInput}
                             />
-                        <Button 
+                        {/* <Button 
                             onClick={submitMessage} 
                             variant="contained" 
                             color="success"
-                            >Send message</Button>
+                            >Send message</Button> */}
+                        <SubmitButton onClick={submitMessage}>Send message</SubmitButton>
                     </div>
                 </form>
             </>
-                // chats.map((chat, idx) => 
-                //     chatID && chatID===chat.id ?
-                //     <div key={chat.id}>
-                    
-                // <ChatMessages 
-                //     chat={chat} 
-                //     messageAuthor={messageAuthor} 
-                //     setMessageAuthor={setMessageAuthor}
-                //     isMessageSent={isMessageSent}
-                //     messageText={messageText}
-                //     setMessageText={setMessageText}
-                //     handleAddMessage={handleAddMessage}
-                //     key={chat.id}/> 
-                    // <ChatMessageForm 
-                    //     messageAuthor={messageAuthor} 
-                    //         setMessageAuthor={setMessageAuthor}
-                    //         isMessageSent={isMessageSent}
-                    //         messageText={messageText}
-                    //         setMessageText={setMessageText}
-                    //         handleAddMessage={handleAddMessage}/>
             ) : <h3>Choose the Chat</h3>
         }
         </div>
