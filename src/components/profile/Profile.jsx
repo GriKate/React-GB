@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux'
 import { getProfileInput } from '../../redux/profilesReducers/selectors'
 import { getProfiles} from '../../redux/profilesReducers/selectors'
 
+import SubmitButton from '../UI/SubmitButton';
+import TwoEntitiesView from '../UI/TwoEntitiesView'
+
 export const Profile = ({setProfile, submitProfile}) => {
     const inputs = useSelector(getProfileInput)
     const profiles = useSelector(getProfiles)
@@ -14,12 +17,11 @@ export const Profile = ({setProfile, submitProfile}) => {
         <div>
             {
                 profiles.map((profile, idx) => 
-                    <div key={idx}>
-                        <div>{profile.name}</div>
-                        {profile.isMember === 'on' &&
-                            <p>Member of chats</p>
-                        } 
-                    </div>
+                    <TwoEntitiesView 
+                        name={profile.name} 
+                        text={profile.isMember === 'on' ? 'Member of chats' : 'Not a member'} 
+                        key={idx} 
+                    />
                 )
             }
         </div>
@@ -38,11 +40,12 @@ export const Profile = ({setProfile, submitProfile}) => {
                 <input type="checkbox" name="isMember" onChange={setProfile} />
                 Are you a member?
             </label>
-            <Button 
+            {/* <Button 
                 onClick={submitProfile} 
                 variant="contained" 
                 color="success"
-                >Send info</Button>
+                >Send info</Button> */}
+            <SubmitButton onClick={submitProfile}>Send info</SubmitButton>
             </div>
         </form>
     </>

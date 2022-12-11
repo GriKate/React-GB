@@ -20,6 +20,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import SubmitButton from '../UI/SubmitButton';
+
 import { Navigate } from "react-router-dom";
 
 import { getChatInput } from '../../redux/chatsReducers/selectors'
@@ -55,12 +57,12 @@ export const Chats = () => {
     // id чата берем из url
     const {chatID} = useParams()
     
-    useEffect(() => {
-        if(isMessageSent) {
-            setMessageSent(false)
-            document.getElementById('outlined-basic').focus();
-        }
-    })
+    // useEffect(() => {
+    //     if(isMessageSent) {
+    //         setMessageSent(false)
+    //         document.getElementById('outlined-basic').focus();
+    //     }
+    // })
     
     const showBotMessage = (author) => {
         if(author) alert(author + ", your message is published")
@@ -79,23 +81,33 @@ export const Chats = () => {
         if(messageInput.author.length && messageInput.text.length) {
             messageInput.id = String(Math.floor(Math.random() * 1000))
             messageInput.chatId = chatID
-            // console.log(messageInput)
         } else {
             alert("Type the author and the text")
             return
         }
-        dispatch({
-            type: 'ADD_NEW_MESSAGE',
-            payload: messageInput
-        })
+        // dispatch({
+        //     type: 'ADD_NEW_MESSAGE',
+        //     payload: messageInput
+        // })
         // изменяем стейт для перерендера через useEffect
-        setMessageSent(true)
-        showBotMessage(messageInput.author)
+        // setMessageSent(true)
+        // showBotMessage(messageInput.author)
+        dispatch(botMessageMiddleware())
         dispatch({
             type: 'MESSAGE_INPUT_CLEAR', 
             payload: {author: '', text: '', id: '', chatId: ''}
         })
+        document.getElementById('outlined-basic').focus();
     }
+
+    const botMessageMiddleware = () => async (dispatch, getState) => {
+        await setTimeout(() => {alert(messageInput.author + ", your message is published")}, 1000)
+        dispatch({
+            type: 'ADD_NEW_MESSAGE',
+            payload: messageInput
+        })
+    }
+
 
     const deleteChat = (id) => {
         // console.log(id)
@@ -150,12 +162,13 @@ export const Chats = () => {
                                 value={chatInput.name}
                                 onChange={setChatInput}
                                 />
-                            <Button 
+                            {/* <Button 
                                 onClick={submitChat} 
                                 variant="contained" 
                                 color="success"
                                 >Add Chat
-                            </Button>
+                            </Button> */}
+                            <SubmitButton onClick={submitChat}>Add Chat</SubmitButton>
                         </div>
                     </form>
                 </Box>
@@ -206,34 +219,15 @@ export const Chats = () => {
                             value={messageInput.text}
                             onChange={setMessageInput}
                             />
-                        <Button 
+                        {/* <Button 
                             onClick={submitMessage} 
                             variant="contained" 
                             color="success"
-                            >Send message</Button>
+                            >Send message</Button> */}
+                        <SubmitButton onClick={submitMessage}>Send message</SubmitButton>
                     </div>
                 </form>
             </>
-                // chats.map((chat, idx) => 
-                //     chatID && chatID===chat.id ?
-                //     <div key={chat.id}>
-                    
-                // <ChatMessages 
-                //     chat={chat} 
-                //     messageAuthor={messageAuthor} 
-                //     setMessageAuthor={setMessageAuthor}
-                //     isMessageSent={isMessageSent}
-                //     messageText={messageText}
-                //     setMessageText={setMessageText}
-                //     handleAddMessage={handleAddMessage}
-                //     key={chat.id}/> 
-                    // <ChatMessageForm 
-                    //     messageAuthor={messageAuthor} 
-                    //         setMessageAuthor={setMessageAuthor}
-                    //         isMessageSent={isMessageSent}
-                    //         messageText={messageText}
-                    //         setMessageText={setMessageText}
-                    //         handleAddMessage={handleAddMessage}/>
             ) : <h3>Choose the Chat</h3>
         }
         </div>

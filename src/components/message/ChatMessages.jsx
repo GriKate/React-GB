@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { getMessages } from '../../redux/messagesReducer/selectors'
 
+import TwoEntitiesView from '../UI/TwoEntitiesView'
+
 export const ChatMessages = ({messageAuthor, setMessageAuthor, isMessageSent,
     messageText,
     setMessageText,
@@ -19,10 +21,7 @@ export const ChatMessages = ({messageAuthor, setMessageAuthor, isMessageSent,
         <h1>{chat.name}</h1>
         {currentChatMessages.map((el, idx) => 
             el ?
-            <div key={idx}>
-                <h3 key={el.author.idx}>{el.author}</h3>
-                <p key={el.text.idx}>{el.text}</p>
-            </div> 
+            <TwoEntitiesView name={el.author} text={el.text} key={idx} />
             : null)
         }
         {/* <ChatMessageForm messageAuthor={messageAuthor} 
