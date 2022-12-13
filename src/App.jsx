@@ -2,6 +2,7 @@ import { Home } from './components/Home';
 import {Profile} from './components/profile/Profile';
 import { Chats } from './components/chats/Chats';
 import { NotFound } from './components/NotFound';
+import { StartupIdeas } from './components/ideas/startupIdeas'
 
 import {useEffect, useState} from 'react';
 import './index.css';
@@ -85,6 +86,7 @@ function App({messages, addMessage}) {
           <Link to='/'>Main page</Link>
           <Link to='chats'>Chats</Link>
           <Link to='profile'>Profile</Link>
+          <Link to='startup-ideas'>Startup Ideas</Link>
         </div>
         <Routes>
           <Route path='/' element={<Home />}></Route>
@@ -92,6 +94,7 @@ function App({messages, addMessage}) {
             <Route path=':chatID' element={<Chats />}></Route>
           </Route>
           <Route path='profile' element={<Profile setProfile={setProfile} submitProfile={submitProfile} />}></Route>
+          <Route path='startup-ideas' element={<StartupIdeas />}></Route>
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </div>

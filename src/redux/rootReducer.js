@@ -7,6 +7,8 @@ import { chatsReducer } from './chatsReducers/chatsReducer'
 import { inputChatReducer } from './chatsReducers/inputChatReducer'
 import { inputMessageReducer } from './messagesReducer/inputMessageReducer'
 import { messagesReducer } from './messagesReducer/messagesReducer'
+import { startupIdeasReducer } from './ideasReducers/startupIdeasReducer'
+import { ideaReducer } from './ideasReducers/ideaReducer'
 
 export const rootReducer = combineReducers({
     postsReducer: postsReducer,
@@ -16,5 +18,7 @@ export const rootReducer = combineReducers({
     chatsReducer: chatsReducer, 
     inputChatReducer: inputChatReducer, 
     inputMessageReducer: inputMessageReducer, 
-    messagesReducer: messagesReducer
+    messagesReducer: messagesReducer,
+    startupIdeasReducer: startupIdeasReducer,
+    ideaReducer: ideaReducer
 })
