@@ -5,6 +5,8 @@ import { useState } from 'react'
 
 import { getIdea } from '../../redux/ideasReducers/selectors'
 
+import * as ideasActions from '../../redux/actions/ideasActionCreator'
+
 export const StartupIdeas = () => {
     const dispatch = useDispatch()
     const idea = useSelector(getIdea)
@@ -22,17 +24,11 @@ export const StartupIdeas = () => {
             await fetch('https://baconipsum.com/api/?type=meat-and-filler')
             .then((res) => res.json())
             .then((data) => 
-                dispatch({
-                    type: 'SET_IDEA',
-                    payload: data[0]
-                })
+                dispatch(ideasActions.setIdea(data[0]))
             )
         } catch (err) {
             console.log(err)
-            dispatch({
-                type: 'SET_IDEA',
-                payload: ''
-            })
+            dispatch(ideasActions.setIdea(''))
             showErrorMessage()
         } finally {
             setLoading(false)

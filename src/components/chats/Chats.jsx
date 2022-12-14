@@ -28,6 +28,8 @@ import { getChatInput } from '../../redux/chatsReducers/selectors'
 import { getChats } from '../../redux/chatsReducers/selectors'
 import { getMessageInput } from '../../redux/messagesReducer/selectors'
 
+import * as chatsActions from '../../redux/actions/chatsActionCreator'
+
 export const Chats = () => {
     // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
     // const [messageAuthor, setMessageAuthor] = useState('')
@@ -69,10 +71,7 @@ export const Chats = () => {
     }
 
     const setMessageInput = (e) => {
-        dispatch({
-          type: 'SET_MESSAGE_INPUT', 
-          payload: {[e.target.name]: e.target.value}
-        })
+        dispatch(chatsActions.setMessageInput(e))
     }
 
     const submitMessage = (e) => {
@@ -85,57 +84,39 @@ export const Chats = () => {
             alert("Type the author and the text")
             return
         }
-        // dispatch({
-        //     type: 'ADD_NEW_MESSAGE',
-        //     payload: messageInput
-        // })
+
         // изменяем стейт для перерендера через useEffect
         // setMessageSent(true)
         // showBotMessage(messageInput.author)
         dispatch(botMessageMiddleware())
-        dispatch({
-            type: 'MESSAGE_INPUT_CLEAR', 
-            payload: {author: '', text: '', id: '', chatId: ''}
-        })
+
+        dispatch(chatsActions.clearMessageInput())
         document.getElementById('outlined-basic').focus();
     }
 
     const botMessageMiddleware = () => async (dispatch, getState) => {
         await setTimeout(() => {alert(messageInput.author + ", your message is published")}, 1000)
-        dispatch({
-            type: 'ADD_NEW_MESSAGE',
-            payload: messageInput
-        })
+        dispatch(chatsActions.addNewMessage(messageInput))
     }
 
 
     const deleteChat = (id) => {
         // console.log(id)
-        dispatch({
-            type: 'DELETE_CHAT', 
-            payload: chats.filter((chat) => chat.id !== id)
-          })
+        const chatToDelete = chats.filter((chat) => chat.id !== id)
+        dispatch(chatsActions.deleteChat(chatToDelete))
     }
 
     const setChatInput = (e) => {
-        dispatch({
-          type: 'SET_CHAT_INPUT', 
-          payload: {[e.target.name]: e.target.value}
-        })
+        dispatch(chatsActions.setChatInput(e))
     }
 
     const submitChat = (e) => {
         e.preventDefault()
 
         chatInput.id = String(Math.floor(Math.random() * 1000))
-        dispatch({
-            type: 'ADD_NEW_CHAT',
-            payload: chatInput
-        })
-        dispatch({
-            type: 'CHAT_INPUT_CLEAR', 
-            payload: {name: '', id: ''}
-          })
+        dispatch(chatsActions.addNewChat(chatInput))
+
+        dispatch(chatsActions.clearChatInput())
         handleClose()
     }
 
