@@ -6,5 +6,7 @@ export const initState = {
     chatsReducer: [],
     inputChatReducer: {}, 
     messagesReducer: [],
-    inputMessageReducer: {}
+    inputMessageReducer: {},
+    startupIdeasReducer: '',
+    ideaReducer: ''
 }
