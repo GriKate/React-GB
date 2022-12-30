@@ -1,6 +1,6 @@
 import {initState} from '../initState'
 
-// хранит текущее значение формы ввода имени чата
+// хранит текущее значение 
 export const ideaReducer = (state = initState, action) => {
     const {type, payload} = action
     switch (type) {

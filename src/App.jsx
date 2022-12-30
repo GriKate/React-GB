@@ -1,8 +1,11 @@
 import { Home } from './components/Home';
-import {Profile} from './components/profile/Profile';
+import { Profile } from './components/profile/Profile';
 import { Chats } from './components/chats/Chats';
 import { NotFound } from './components/NotFound';
 import { StartupIdeas } from './components/ideas/startupIdeas'
+import { SignIn } from './components/SignIn'
+import { SignUp } from './components/SignUp'
+import { SignOut } from './components/SignOut'
 
 import {useEffect, useState} from 'react';
 import './index.css';
@@ -11,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material';
+
+import { PrivateRoutes } from './components/routes/PrivateRoutes'
 
 import {
   createBrowserRouter,
@@ -67,13 +72,15 @@ function App({messages, addMessage}) {
 
   const submitProfile = (e) => {
     e.preventDefault();
+    console.log(inputs)
+    inputs.isAuth = false
     dispatch({
       type: 'SET_NEW_PROFILE',
       payload: inputs
     })
     dispatch({
       type: 'PROFILE_INPUT_CLEAR', 
-      payload: {name: '', isMember: ''}
+      payload: {name: '', isMember: '', isAuth: false}
     })
   }
 
@@ -87,14 +94,24 @@ function App({messages, addMessage}) {
           <Link to='chats'>Chats</Link>
           <Link to='profile'>Profile</Link>
           <Link to='startup-ideas'>Startup Ideas</Link>
+          <Link to='signin'>Sign In</Link>
+          <Link to='signup'>Sign Up</Link>
+          <Link to='signout'>Sign Out</Link>
         </div>
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='chats' element={<Chats />}>
             <Route path=':chatID' element={<Chats />}></Route>
           </Route>
-          <Route path='profile' element={<Profile setProfile={setProfile} submitProfile={submitProfile} />}></Route>
+          <Route 
+            path='profile' 
+            element={<PrivateRoutes 
+                component={<Profile setProfile={setProfile} submitProfile={submitProfile} />}
+            />}></Route>
           <Route path='startup-ideas' element={<StartupIdeas />}></Route>
+          <Route path='signin' element={<SignIn />}></Route>
+          <Route path='signup' element={<SignUp />}></Route>
+          <Route path='signout' element={<SignOut />}></Route>
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </div>
