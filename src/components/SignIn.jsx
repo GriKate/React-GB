@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { signIn } from '../services/firebase'
 
 import TextField from '@mui/material/TextField';
 import SubmitButton from './UI/SubmitButton';
 
 export const SignIn = () => {
     const [inputs, setInputs] = useState({email: '', password: ''})
+    const [error, setError] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -15,19 +17,32 @@ export const SignIn = () => {
         setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))
     }
 
-    const signIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault()
-        if (inputs.email === 'q@w.e' && inputs.password === 'gb') {
-            dispatch({
-                type: 'SET_AUTH', 
-                payload: true
-              })
+        try {
+            setError('')
+            await signIn(inputs.email, inputs.password)
             navigate('/profile')
-        } else {
+        } catch (error) {
+            setError(error)
+        } finally {
             setInputs({email: '', password: ''})
-            alert('Uncorrect email/password')
         }
     }
+    
+    // const signIn = (e) => {
+    //     e.preventDefault()
+    //     if (inputs.email === 'q@w.e' && inputs.password === 'gb') {
+    //         dispatch({
+    //             type: 'SET_AUTH', 
+    //             payload: true
+    //           })
+    //         navigate('/profile')
+    //     } else {
+    //         setInputs({email: '', password: ''})
+    //         alert('Uncorrect email/password')
+    //     }
+    // }
 
     return <>
     <h1>Sign in</h1>
@@ -51,8 +66,9 @@ export const SignIn = () => {
             variant="outlined" 
             margin="normal" 
             />
-        <SubmitButton onClick={signIn}>Sign In</SubmitButton>
+        <SubmitButton onClick={handleSignIn}>Sign In</SubmitButton>
         </div>
     </form>
+    {error && <p style={{color: 'red'}}>{error.message}</p>}
     </>
 }

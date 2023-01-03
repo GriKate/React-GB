@@ -1,5 +1,7 @@
 import { Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
+import { set, push, remove, onValue } from "firebase/database"
+import { chatsRef, getChatById, messagesRef } from "../../services/firebase"
 
 import {useEffect, useState} from 'react';
 import '../.././index.css';
@@ -37,8 +39,11 @@ export const Chats = () => {
     const [isMessageSent, setMessageSent] = useState(false)
     const dispatch = useDispatch()
     const chatInput = useSelector(getChatInput)
-    const chats = useSelector(getChats)
+    // const chats = useSelector(getChats)
     const messageInput = useSelector(getMessageInput)
+
+    //для записи чатов, полученных из БД firebase
+    const [chats, setChats] = useState([])
 
     // modal window
     const [open, setOpen] = useState(false);
@@ -66,6 +71,27 @@ export const Chats = () => {
     //     }
     // })
     
+    // читаем список чатов из БД firebase
+    useEffect(() => {
+        onValue(chatsRef, (snapshot) => {
+            const data = snapshot.val()
+
+            // данные приходят объектом, где ключ - id в БД, значение - объект чата
+            // через Object.entries преобразуем этот объект в массив с объектами, 
+            // где в объекте dbID - id в БД, остальные поля из объекта чата
+            if (data) {
+                const dbChats = Object.entries(data).map((item) => ({
+                    dbID: item[0],
+                    ...item[1]
+                }))
+                // console.log(dbChats)
+                // записываем чаты локально через useState, не в стор редакса
+                setChats(dbChats)
+            }
+            // console.log(data)
+        })
+    }, [])
+
     const showBotMessage = (author) => {
         if(author) alert(author + ", your message is published")
     }
@@ -88,22 +114,31 @@ export const Chats = () => {
         // изменяем стейт для перерендера через useEffect
         // setMessageSent(true)
         // showBotMessage(messageInput.author)
+
         dispatch(botMessageMiddleware())
+        dispatch(chatsActions.addNewMessage(messageInput))
+
+        // сохраняем сообщение в БД firebase
+        push(messagesRef, messageInput)
 
         dispatch(chatsActions.clearMessageInput())
+
         document.getElementById('outlined-basic').focus();
     }
 
     const botMessageMiddleware = () => async (dispatch, getState) => {
         await setTimeout(() => {alert(messageInput.author + ", your message is published")}, 1000)
-        dispatch(chatsActions.addNewMessage(messageInput))
+        
     }
 
 
-    const deleteChat = (id) => {
+    const deleteChat = (dbID) => {
         // console.log(id)
-        const chatToDelete = chats.filter((chat) => chat.id !== id)
-        dispatch(chatsActions.deleteChat(chatToDelete))
+        // const chatToDelete = chats.filter((chat) => chat.id !== id)
+        // dispatch(chatsActions.deleteChat(chatToDelete))
+        
+        // метод remove из "firebase/database"
+        remove(getChatById(dbID))
     }
 
     const setChatInput = (e) => {
@@ -114,7 +149,11 @@ export const Chats = () => {
         e.preventDefault()
 
         chatInput.id = String(Math.floor(Math.random() * 1000))
-        dispatch(chatsActions.addNewChat(chatInput))
+        // dispatch(chatsActions.addNewChat(chatInput))
+
+        //добавляем чат в БД, передаём подключение к БД чатов firebase
+        // через push запись добавляется к существующим в БД, через set перезаписывается
+        push(chatsRef, chatInput)
 
         dispatch(chatsActions.clearChatInput())
         handleClose()
@@ -166,7 +205,7 @@ export const Chats = () => {
                             <Link to={`${chat.id}`} >{chat.name}</Link>
                         </ListItemText>
                         <ListItemIcon>
-                            <Button variant="contained" color="error" onClick={() => {deleteChat(chat.id)}}>X</Button>
+                            <Button variant="contained" color="error" onClick={() => {deleteChat(chat.dbID)}}>X</Button>
                         </ListItemIcon>
                     </ListItemButton>
                 </MenuItem> : null

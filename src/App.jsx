@@ -10,12 +10,15 @@ import { SignOut } from './components/SignOut'
 import {useEffect, useState} from 'react';
 import './index.css';
 import { useDispatch, useSelector } from 'react-redux'
+// import { useNavigate } from 'react-router-dom'
 
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material';
 
 import { PrivateRoutes } from './components/routes/PrivateRoutes'
+
+import { firebaseAuth, logOut } from "./services/firebase"
 
 import {
   createBrowserRouter,
@@ -24,7 +27,8 @@ import {
   Link,
   BrowserRouter,
   Routes,
-  Navigate
+  Navigate, 
+  useNavigate
 } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -60,7 +64,32 @@ function App({messages, addMessage}) {
   const [isDark, setIsDark] = useState(false)
 
   const dispatch = useDispatch()
+  // const navigate = useNavigate()
   const inputs = useSelector((store) => store.inputProfileReducer)
+
+  useEffect(() => {
+    const isAuth = firebaseAuth.onAuthStateChanged(user => {
+      if(user) {
+        dispatch({
+          type: 'SET_AUTH', 
+          payload: true
+        })
+      } else {
+        dispatch({
+          type: 'SET_AUTH', 
+          payload: false
+        })
+      }
+    })
+    return isAuth;
+  }, [])
+
+  const signOut = async () => {
+    await logOut()
+    console.log('exit')
+    // не перенаправляет из App!
+    // navigate('/signin')
+  }
 
   const setProfile = (e) => {
     // console.log(e.target.value)
@@ -96,7 +125,7 @@ function App({messages, addMessage}) {
           <Link to='startup-ideas'>Startup Ideas</Link>
           <Link to='signin'>Sign In</Link>
           <Link to='signup'>Sign Up</Link>
-          <Link to='signout'>Sign Out</Link>
+          <Link to='signout' onClick={signOut}>Sign Out</Link>
         </div>
         <Routes>
           <Route path='/' element={<Home />}></Route>
