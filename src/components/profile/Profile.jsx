@@ -50,4 +50,3 @@ export const Profile = ({setProfile, submitProfile}) => {
         </form>
     </>
 }
-// подключить стр к редакс, добавить чекбокс и сохранить в сторе

@@ -1,7 +1,7 @@
 export const initState = {
     postsReducer: [],
     inputPostReducer: {},
-    profilesReducer: [],
+    profilesReducer: [{name: 'Sue', isMember: '', isAuth: false}],
     inputProfileReducer: {},
     chatsReducer: [],
     inputChatReducer: {}, 

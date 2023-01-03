@@ -20,12 +20,15 @@ export const StartupIdeas = () => {
     const getIdeaMiddleware = () => async (dispatch, getState) => {
         try {
             setLoading(true)
-            // await fetch('https://bac')
-            await fetch('https://baconipsum.com/api/?type=meat-and-filler')
-            .then((res) => res.json())
-            .then((data) => 
-                dispatch(ideasActions.setIdea(data[0]))
-            )
+
+            // // await fetch('https://bac')
+            // await fetch('https://baconipsum.com/api/?type=meat-and-filler')
+            // .then((res) => res.json())
+            // .then((data) => 
+            //     dispatch(ideasActions.setIdea(data[0]))
+            // )
+            
+            dispatch(ideasActions.getIdea())
         } catch (err) {
             console.log(err)
             dispatch(ideasActions.setIdea(''))
