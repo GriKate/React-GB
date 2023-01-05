@@ -6,6 +6,8 @@ export default function SubmitButton(props) {
             {...props} 
             variant="contained" 
             color="success"
+            style={{color: 'black'}}
+            // onClick={props.click}
             >
                 {props.children}
         </Button>
