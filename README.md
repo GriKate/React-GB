@@ -4,7 +4,7 @@
 Add chats, send messages \
 Registration, authorisation, authentication
 
-## Made with
+## Implemented with
 React Router \
 Redux \
 Redux Thunk \
