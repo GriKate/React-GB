@@ -1,3 +1,3 @@
 export function getIdea(store) {
-    return store.ideaReducer
+  return store.ideaReducer;
 }
