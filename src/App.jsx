@@ -60,7 +60,8 @@ const lightTheme = createTheme({
   },
 });
 
-function App({ messages, addMessage }) {
+// { messages, addMessage }
+function App() {
   const [isDark, setIsDark] = useState(false);
 
   const dispatch = useDispatch();

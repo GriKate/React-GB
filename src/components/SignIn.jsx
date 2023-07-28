@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../services/firebase';
 
@@ -9,7 +9,7 @@ import SubmitButton from './UI/SubmitButton';
 export const SignIn = () => {
   const [inputs, setInputs] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleInput = (e) => {

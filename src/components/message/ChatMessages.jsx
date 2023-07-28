@@ -17,7 +17,7 @@ export const ChatMessages = () => {
   //для записи сообщений и чатов, полученных из БД firebase
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
-  const [chat, setChat] = useState({}); // chat
+  // const [chat, setChat] = useState({});
 
   useEffect(() => {
     // читаем список чатов из БД firebase
@@ -32,9 +32,8 @@ export const ChatMessages = () => {
         // записываем чаты локально через useState, не в стор редакса
         setChats(dbChats);
 
-        const chat = chats.find((chat) => chat.id === chatID);
-        setChat(chat);
-        console.log(chat);
+        // const chat = chats.find((chat) => chat.id === chatID);
+        // setChat(chat);
       }
     });
     // читаем список сообщений из БД firebase
@@ -55,9 +54,6 @@ export const ChatMessages = () => {
     (message) => message.chatId === chatID,
   );
   // console.log(currentChatMessages)
-
-  // const chat = chats.find((chat) => chat.id === chatID)
-  // console.log(chat.name);
 
   return (
     <>
