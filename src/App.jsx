@@ -31,6 +31,7 @@ import {
   // useNavigate,
 } from 'react-router-dom';
 
+//eslint-disable-next-line
 const router = createBrowserRouter([
   {
     path: '/',

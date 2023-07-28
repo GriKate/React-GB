@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import '.././index.css';
 
 // import Button from '@mui/material/Button';
@@ -8,45 +8,46 @@ import '.././index.css';
 // import ListItemButton from '@mui/material/ListItemButton';
 // import ListItemText from '@mui/material/ListItemText';
 
-export const Home = ({ chats, messages, addMessage }) => {
-  const [messageList, setMessageList] = useState([]);
-  // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
-  const [messageAuthor, setMessageAuthor] = useState('');
-  const [messageText, setMessageText] = useState('');
-  const [isMessageSent, setMessageSent] = useState(false);
+// { chats, messages, addMessage }
+export const Home = () => {
+  // const [messageList, setMessageList] = useState([]);
+  // // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
+  // const [messageAuthor, setMessageAuthor] = useState('');
+  // const [messageText, setMessageText] = useState('');
+  // const [isMessageSent, setMessageSent] = useState(false);
 
-  useEffect(() => {
-    setMessageList(messages);
-  }, []);
+  // useEffect(() => {
+  //   setMessageList(messages);
+  // }, []);
 
-  useEffect(() => {
-    if (isMessageSent) {
-      showMessage();
-      setMessageSent(false);
-      setMessageText('');
-      setMessageAuthor('');
-      document.getElementById('outlined-basic').focus();
-    }
-  });
+  // useEffect(() => {
+  //   if (isMessageSent) {
+  //     showMessage();
+  //     setMessageSent(false);
+  //     setMessageText('');
+  //     setMessageAuthor('');
+  //     document.getElementById('outlined-basic').focus();
+  //   }
+  // });
 
-  const showMessage = () => {
-    if (messageAuthor) alert(messageAuthor + ', your message is published');
-  };
+  // const showMessage = () => {
+  //   if (messageAuthor) alert(messageAuthor + ', your message is published');
+  // };
 
-  const handleAddMessage = (e) => {
-    e.preventDefault();
+  // const handleAddMessage = (e) => {
+  //   e.preventDefault();
 
-    let inputMessage = {};
-    if (messageText.length && messageAuthor.length) {
-      inputMessage = { author: messageAuthor, text: messageText };
-    } else return;
+  //   let inputMessage = {};
+  //   if (messageText.length && messageAuthor.length) {
+  //     inputMessage = { author: messageAuthor, text: messageText };
+  //   } else return;
 
-    // изменяем стейт для перерендера через useEffect
-    setMessageSent(true);
-    // передаём inputMessage в родительскую ф-ию
-    // если передать в неё newMessage из стейта, новое сообщение отобразится только при след. рендере
-    addMessage(inputMessage);
-  };
+  //   // изменяем стейт для перерендера через useEffect
+  //   setMessageSent(true);
+  //   // передаём inputMessage в родительскую ф-ию
+  //   // если передать в неё newMessage из стейта, новое сообщение отобразится только при след. рендере
+  //   addMessage(inputMessage);
+  // };
 
   return (
     <>

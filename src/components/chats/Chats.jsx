@@ -36,7 +36,7 @@ export const Chats = () => {
   // разделить newMessage на 2 стейта: author и text. Массив при сете перетирается полностью
   // const [messageAuthor, setMessageAuthor] = useState('')
   // const [messageText, setMessageText] = useState('')
-  const [isMessageSent, setMessageSent] = useState(false);
+  const [isMessageSent] = useState(false); //setMessageSent
   const dispatch = useDispatch();
   const chatInput = useSelector(getChatInput);
   // const chats = useSelector(getChats)
@@ -92,9 +92,9 @@ export const Chats = () => {
     });
   }, []);
 
-  const showBotMessage = (author) => {
-    if (author) alert(author + ', your message is published');
-  };
+  // const showBotMessage = (author) => {
+  //   if (author) alert(author + ', your message is published');
+  // };
 
   const setMessageInput = (e) => {
     dispatch(chatsActions.setMessageInput(e));
@@ -126,7 +126,8 @@ export const Chats = () => {
     document.getElementById('outlined-basic').focus();
   };
 
-  const botMessageMiddleware = () => async (dispatch, getState) => {
+  // dispatch, getState
+  const botMessageMiddleware = () => async () => {
     await setTimeout(() => {
       alert(messageInput.author + ', your message is published');
     }, 1000);

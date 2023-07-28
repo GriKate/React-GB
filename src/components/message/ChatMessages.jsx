@@ -16,6 +16,7 @@ export const ChatMessages = () => {
 
   //для записи сообщений и чатов, полученных из БД firebase
   const [messages, setMessages] = useState([]);
+  //eslint-disable-next-line
   const [chats, setChats] = useState([]);
   // const [chat, setChat] = useState({});
 

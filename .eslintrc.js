@@ -36,7 +36,7 @@ module.exports = {
     quotes: ['warn', 'single'], // всегда одиночные кавычки
     semi: ['warn', 'always'], // ; должна быть всегда
     'react/react-in-jsx-scope': 'off',
-    // 'no-unused-vars': 'off',
+    'no-unused-vars': 'off',
     'no-undef': 'off',
   },
   overrides: [

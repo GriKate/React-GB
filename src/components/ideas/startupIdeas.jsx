@@ -13,11 +13,12 @@ export const StartupIdeas = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const showIdea = (e) => {
+  const showIdea = () => {
     dispatch(getIdeaMiddleware());
   };
 
-  const getIdeaMiddleware = () => async (dispatch, getState) => {
+  // getState
+  const getIdeaMiddleware = () => async (dispatch) => {
     try {
       setLoading(true);
 

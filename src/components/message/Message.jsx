@@ -1,9 +1,9 @@
 import style from './Message.module.css';
 
-export const Message = ({ message, handleChangeMessage, messagesList }) => {
-  const handleClick = () => {
-    handleChangeMessage('This message was sent from Message Component');
-  };
+export const Message = ({ message, handleChangeMessage }) => {
+  // const handleClick = () => {
+  //   handleChangeMessage('This message was sent from Message Component');
+  // };
 
   const handleChange = (e) => {
     handleChangeMessage(e.target.value);
