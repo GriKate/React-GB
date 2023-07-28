@@ -2,6 +2,7 @@
   "name": "react_gb",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://grikate.github.io/React-GB/",
   "dependencies": {
     "-": "^0.0.1",
     "@emotion/react": "^11.10.4",
@@ -28,7 +29,9 @@
     "build": "react-scripts build",
     "lint": "npx eslint ./src --ext .js,.jsx --fix",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +62,7 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^27.5.1",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "gh-pages": "^5.0.0"
   }
 }

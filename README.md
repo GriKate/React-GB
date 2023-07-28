@@ -1,3 +1,18 @@
+# Chat application on React
+
+## Features
+Add chats, send messages \
+Registration, authorisation, authentication
+
+## Implemented with
+React Router \
+Redux \
+Redux Thunk \
+Redux Persist \
+Firebase \
+Jest
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
