@@ -1,8 +1,7 @@
-
 export function getChatInput(store) {
-    return store.inputChatReducer
+  return store.inputChatReducer;
 }
 
 export function getChats(store) {
-    return store.chatsReducer
+  return store.chatsReducer;
 }

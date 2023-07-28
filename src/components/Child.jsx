@@ -1,5 +1,7 @@
-export const Child = ({name}) => {
-    return <>
-        <p>{name}</p>
+export const Child = ({ name }) => {
+  return (
+    <>
+      <p>{name}</p>
     </>
-}
+  );
+};
