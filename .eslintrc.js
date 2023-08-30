@@ -8,6 +8,7 @@ module.exports = {
     browser: true,
     node: true,
     es6: true,
+    jest: true,
   },
   extends: [
     'prettier',
@@ -32,7 +33,7 @@ module.exports = {
       },
     ],
     'react/prop-types': 0,
-    // 'linebreak-style': ['error', 'unix'], // CRLF LF
+    'linebreak-style': ['error', 'unix'], // CRLF LF
     quotes: ['warn', 'single'], // всегда одиночные кавычки
     semi: ['warn', 'always'], // ; должна быть всегда
     'react/react-in-jsx-scope': 'off',

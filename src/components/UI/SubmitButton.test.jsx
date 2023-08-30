@@ -42,15 +42,28 @@ describe('SubmitButton', () => {
   });
 
   // it('button click with userEvent', async () => {
-  //     const fakeHandler = jest.fn()
+  //   const fakeHandler = jest.fn();
 
-  //     render (<SubmitButton click={fakeHandler}>Send message</SubmitButton>)
+  //   render(<SubmitButton click={fakeHandler}>Send message</SubmitButton>);
 
-  //     // кликаем джестом по кнопке
-  //     await userEvent.click(screen.getByText(/Send message/))
-  //     // ожидаем, что метод fakeHandler был вызван 1 раз
-  //     expect(fakeHandler).toHaveBeenCalledTimes(1)
-  // })
+  //   // кликаем джестом по кнопке
+  //   await userEvent.click(screen.getByText(/Send message/));
+  //   // ожидаем, что метод fakeHandler был вызван 1 раз
+  //   expect(fakeHandler).toHaveBeenCalledTimes(1);
+  // });
+
+  // it('timeout', async () => {
+  //   const mockHandler = jest.fn();
+  //   render(
+  //     <SubmitButton click={() => setTimeout(mockHandler, 1000)}>
+  //       Send message
+  //     </SubmitButton>,
+  //   );
+  //   await userEvent.click(screen.getByText(/Send message/));
+  //   await waitFor(() => expect(mockHandler).toHaveBeenCalledTimes(1), {
+  //     timeout: 1500,
+  //   });
+  // });
 
   it('checkbox test', async () => {
     const onChange = jest.fn();
